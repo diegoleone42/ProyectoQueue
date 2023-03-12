@@ -26,18 +26,20 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
 
     //Functional Methods
     //Resize
-    private void resize(int capacity,Item []arr,int counter) {
+    private Item[] resize(int capacity,Item []arr,int counter) {
         Item temp[] = (Item[]) new Object[capacity];
         for (int i = 0; i < counter; i++) {
             temp[i] = arr[i];
         }
         arr = temp;
+        
+        return arr;
     }
 
     //Add into Stack
     public void push(Item data) {
         if (counterStck == stck.length) {
-            resize(2 * stck.length, stck,counterStck);
+            stck=resize(2 * stck.length, stck,counterStck);
         }
         stck[counterStck++] = data;
     }
@@ -45,7 +47,7 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
     //Add into Queue
     public void enqueue (Item data){
         if (counterQuue == quue.length){
-            resize(2*quue.length,quue,counterQuue);
+            quue=resize(2*quue.length,quue,counterQuue);
         }
         quue[counterQuue++]=data;
     }
