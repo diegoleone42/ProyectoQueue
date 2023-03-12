@@ -12,55 +12,75 @@ import java.util.Iterator;
  */
 public class GenericResizingQueue<Item> implements Iterable<Item> {
     //Attributes
-    private Item a[];
-    private int counter;
+    private Item stck[], quue[];
+    private int counterStck,counterQuue,head;
 
     //Constructor
     public GenericResizingQueue() {
-        a = (Item[]) new Object[1];
-        counter = 0;
+       stck = (Item[]) new Object[1];
+       quue = (Item[]) new Object[1];
+        counterStck = 0;
+        counterQuue=0;
+        head=0;
     }
 
     //Functional Methods
     //Resize
-    private void resize(int capacity) {
+    private void resize(int capacity,Item []arr,int counter) {
         Item temp[] = (Item[]) new Object[capacity];
         for (int i = 0; i < counter; i++) {
-            temp[i] = a[i];
+            temp[i] = arr[i];
         }
-        a = temp;
+        arr = temp;
     }
 
-    //Add
+    //Add into Stack
     public void push(Item data) {
-        if (counter == a.length) {
-            resize(2 * a.length);
+        if (counterStck == stck.length) {
+            resize(2 * stck.length, stck,counterStck);
         }
-        a[counter++] = data;
+        stck[counterStck++] = data;
     }
 
-    //Delete
+    //Add into Queue
+    public void enqueue (Item data){
+        if (counterQuue == quue.length){
+            resize(2*quue.length,quue,counterQuue);
+        }
+        quue[counterQuue++]=data;
+    }
+    
+    //Delete into Stack
     public Item pop() {
-        Item temp = a[--counter];
-        a[counter] = null;
-        if (counter > 0 && counter == a.length / 4) {
-            resize(a.length / 2);
+        Item temp = stck[--counterStck];
+        stck[counterStck] = null;
+        if (counterStck > 0 && counterStck == stck.length / 4) {
+            resize(stck.length / 2,stck,counterStck);
+        }
+        return temp;
+    }
+    //Delete into Queue
+    public Item dequeue(){
+        Item temp = quue[head];
+        quue[head++]=null;
+        if(counterQuue>0 && counterQuue == quue.length /4){
+            resize(stck.length / 2,stck,counterStck);
         }
         return temp;
     }
 
     //Check if stack is empty
     public boolean isEmpty() {
-        return counter == 0;
+        return counterStck == 0;
     }
 
     //Return size of array
     public int size() {
-        return counter;
+        return counterStck;
     }
 
     public Item peek() {
-        return a[counter - 1];
+        return stck[counterStck - 1];
     }
 
     @Override
@@ -68,12 +88,12 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
         return new ReverseArrayIterator();
     }
 
-    private class ReverseArrayIterator implements Iterator<Item> {
+   private class ReverseArrayIterator implements Iterator<Item> {
 
         private int i;
         
         public ReverseArrayIterator(){
-            i = counter-1;
+            i = counterStck-1;
         }
 
         @Override
@@ -83,7 +103,8 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-            return a[--i];
+            return stck[--i];
         }
     }
 }
+
