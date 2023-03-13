@@ -14,7 +14,7 @@ public class InterfaceTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String test ="Helloe world";
+        String test ="Hello world";
         GenericResizingQueue<String> queue;
         queue= new GenericResizingQueue<>();
         
@@ -22,6 +22,17 @@ public class InterfaceTest {
             char chr = test.charAt(i);
             queue.enqueue(String.valueOf(chr));
         }
+        
+        while (!queue.quueIsEmpty()){
+            System.out.println(queue.dequeue());
+        }
+        test ="ThisIsATest";
+        for (int i = 0;i<test.length();i++){
+            char chr = test.charAt(i);
+            queue.enqueue(String.valueOf(chr));
+        }
+        
+        
     }
     
 }

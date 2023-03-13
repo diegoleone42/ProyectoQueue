@@ -50,6 +50,7 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
             quue=resize(2*quue.length,quue,counterQuue);
         }
         quue[counterQuue++]=data;
+      
     }
     
     //Delete into Stack
@@ -64,7 +65,10 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
     //Delete into Queue
     public Item dequeue(){
         Item temp = quue[head];
-        quue[head++]=null;
+        for(int i = 0;i<quue.length-1;i++){
+            quue[i]=quue[i+1];
+        }
+        counterQuue--;
         if(counterQuue>0 && counterQuue == quue.length /4){
             resize(stck.length / 2,stck,counterStck);
         }
@@ -72,8 +76,12 @@ public class GenericResizingQueue<Item> implements Iterable<Item> {
     }
 
     //Check if stack is empty
-    public boolean isEmpty() {
+    public boolean stckIsEmpty() {
         return counterStck == 0;
+    }
+    
+    public boolean quueIsEmpty() {
+        return counterQuue == 0;
     }
 
     //Return size of array
